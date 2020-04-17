@@ -1,0 +1,17 @@
+env : "production"
+database :
+  local :
+    host : '127.0.0.1'
+    user : 'root'
+    password : ''
+    database : 'test1'
+    port : 3306
+  mongo :
+    host : '127.0.0.1'
+    database : 'dwiki'
+    collection : 'storage'
+    entity : 'topEntity'
+    counter: 'iCounter'
+    before : 'iBefore'
+    after  : 'iAfter'
+    port : 27017
