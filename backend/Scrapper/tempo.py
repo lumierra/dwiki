@@ -165,96 +165,6 @@ class tempoScrapper():
 
         return iData
 
-    ## fungsi ini digunakan untuk mengambil sumber data dari Tempo.co secara bulanan
-    def tempoMonthly(self, category=None, nameCategory=None, year=None, month=None):
-
-        iData = []
-        for i in tqdm(range(10), desc='Get Data'):
-            try:
-                if month <= 9:
-                    if i + 1 <= 9:
-                        iUrl = '''https://www.tempo.co/indeks/{}/0{}/0{}/{}'''.format(year, month, i + 1, category)
-                    else:
-                        iUrl = '''https://www.tempo.co/indeks/{}/0{}/{}/{}'''.format(year, month, i + 1, category)
-                else:
-                    if i + 1 <= 9:
-                        iUrl = '''https://www.tempo.co/indeks/{}/{}/0{}/{}'''.format(year, month, i + 1, category)
-                    else:
-                        iUrl = '''https://www.tempo.co/indeks/{}/{}/{}/{}'''.format(year, month, i + 1, category)
-
-                print(iUrl)
-                iResponse = requests.get(iUrl).text
-                iSoup = BeautifulSoup(iResponse, "html5lib")
-                contents = iSoup.select('.list.list-type-1 > ul > li')
-
-                for i in range(len(contents)):
-                    tempUrl = contents[i].select_one('a')['href']
-                    iTitle = contents[i].select_one('.title').text
-                    iDate = iUrl.split('/')[6] + '-' + iUrl.split('/')[5] + '-' + iUrl.split('/')[4]
-
-                    iJson = {
-                        'category': nameCategory,
-                        'title': iTitle,
-                        'description': '',
-                        'url': tempUrl,
-                        'content': '',
-                        'contentHTML': '',
-                        'img': '',
-                        'subCategory': '',
-                        'publishedAt': iDate,
-                        'source': 'tempo.co',
-                        'cleanContent': '',
-                    }
-
-                    iData.append(iJson)
-            except:
-                pass
-
-        return iData
-
-    ## tempo daily with model MNB
-    def tempoDailyModel(self, category=None, year=None, month=None, day=None):
-
-        iData = []
-        if month <= 9:
-            if day <= 9:
-                iUrl = '''https://www.tempo.co/indeks/{}/0{}/0{}/{}'''.format(year, month, day, category)
-            else:
-                iUrl = '''https://www.tempo.co/indeks/{}/0{}/{}/{}'''.format(year, month, day, category)
-        else:
-            if day <= 9:
-                iUrl = '''https://www.tempo.co/indeks/{}/{}/0{}/{}'''.format(year, month, day, category)
-            else:
-                iUrl = '''https://www.tempo.co/indeks/{}/{}/{}/{}'''.format(year, month, day, category)
-
-        print(iUrl)
-        iResponse = requests.get(iUrl).text
-        iSoup = BeautifulSoup(iResponse, "html5lib")
-        iContents = iSoup.select('.list.list-type-1 > ul > li')
-
-        for i in range(len(iContents)):
-            tempUrl = iContents[i].select_one('a')['href']
-            iTitle = iContents[i].select_one('.title').text
-            iDate = iUrl.split('/')[6] + '-' + iUrl.split('/')[5] + '-' + iUrl.split('/')[4]
-
-            iJson = {
-                'category': '',
-                'title': iTitle,
-                'description': '',
-                'url': tempUrl,
-                'content': '',
-                'contentHTML': '',
-                'img': '',
-                'subCategory': '',
-                'publishedAt': iDate,
-                'source': 'tempo.co',
-                'cleanContent': '',
-            }
-
-            iData.append(iJson)
-
-        return iData
-
     ## menentukan kategori artikel berita dengan model klasifikasi
     def getCategory(self, iData=None):
 
@@ -275,23 +185,5 @@ class tempoScrapper():
         iData = self.getContent2((iData))
         iData = self.cleanData(iData)
         iData = self.cleanContent(iData)
-
-        return iData
-
-    ## fungsi ini digunakan untuk menjalankan semua fungsi yang dibutuhkan untuk mengambil data artikel berita secara bulanan
-    def iMonthly(self, category=None, nameCategory=None, year=None, month=None):
-        iData = self.tempoMonthly(category, nameCategory, year, month)
-        iData = self.getContent2((iData))
-        iData = self.cleanData(iData)
-        iData = self.cleanContent(iData)
-
-        return iData
-
-    def iDailyModel(self, category=None, year=None, month=None, day=None):
-        iData = self.tempoDailyModel(category, year, month, day)
-        iData = self.getContent2((iData))
-        iData = self.cleanData(iData)
-        iData = self.cleanContent(iData)
-        iData = self.getCategory(iData)
 
         return iData
