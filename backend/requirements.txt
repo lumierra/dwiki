@@ -1,0 +1,5 @@
+tqdm
+beautifulsoup4
+scikit-learn
+textacy
+pymongo
