@@ -13,7 +13,7 @@ import dbMongo
 
 ## Load NLP
 nlp = id_aldo.load()
-nlp_ner = indo.load()
+# nlp_ner = indo.load()
 
 # create stemmer
 factory = StemmerFactory()
