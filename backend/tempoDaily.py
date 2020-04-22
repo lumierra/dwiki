@@ -7,8 +7,11 @@ import yaml
 import os
 
 ## OPEN CONFIG FILE YAML
-filename_config = os.path.abspath("Config/config.yml")
-config = yaml.load(open(filename_config, "r"))
+# filename_config = os.path.abspath("Config/config.yml")
+# config = yaml.load(open(filename_config, "r"))
+
+with open("Config/config.yml", 'r') as cfg:
+    config = yaml.safe_load(cfg)
 
 ## memanggil class tempoScrapper dan class Database
 scraperTempo = tempoScrapper()
