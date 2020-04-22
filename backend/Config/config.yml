@@ -10,8 +10,4 @@ database :
     host : '127.0.0.1'
     database : 'Dwiki'
     collection : 'storage'
-    entity : 'topEntity'
-    counter: 'iCounter'
-    before : 'iBefore'
-    after  : 'iAfter'
     port : 27017
